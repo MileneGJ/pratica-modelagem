@@ -18,11 +18,12 @@ CREATE TABLE "customers" (
 "email" TEXT UNIQUE NOT NULL,
 "password" TEXT NOT NULL
 );
+CREATE TYPE phones AS ENUM ('landline','mobile');
 CREATE TABLE "customerPhones" (
 "id" SERIAL PRIMARY KEY,
 "customerId" INTEGER NOT NULL REFERENCES "customers"("id"),
 "number" VARCHAR(11) NOT NULL,
-"type" TEXT NOT NULL
+"type" phones NOT NULL
 );
 CREATE TABLE "customerAddresses" (
 "id" SERIAL PRIMARY KEY,
@@ -41,11 +42,12 @@ CREATE TABLE "bankAccount" (
 "openDate" DATE NOT NULL,
 "closeDate" DATE NOT NULL
 );
+CREATE TYPE transact AS ENUM ('deposit','withdraw');
 CREATE TABLE "transactions" (
 "id" SERIAL PRIMARY KEY,
 "bankAccountId" INTEGER NOT NULL REFERENCES "bankAccount"("id"),
 "amount" INTEGER NOT NULL,
-"type" TEXT NOT NULL,
+"type" transact NOT NULL,
 "time" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
 "description" TEXT NOT NULL,
 "cancelled" BOOLEAN NOT NULL DEFAULT FALSE
